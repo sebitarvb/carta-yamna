@@ -258,19 +258,6 @@
     box-shadow:0 2px 8px rgba(200,80,130,.2);
   }
 
-  /* ---------- Seccion carta (visible al hacer scroll) ---------- */
-  .carta-seccion{
-    position:relative;z-index:2;
-    padding:120px 16px 64px;
-    display:flex;flex-direction:column;align-items:center;
-    text-align:center;
-  }
-  .sec-head{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:46px;}
-  .sec-head svg{width:40px;height:40px;fill:#ff5f8f;animation:pulse 3s ease-in-out infinite;}
-  .sec-head h2{font-family:'Great Vibes',cursive;font-size:clamp(38px,8vw,58px);color:#d1276b;margin:0;}
-  .sec-head p{font-size:14.5px;color:#a12f5c;max-width:460px;margin:0;}
-  .letter-paper.in-flow{max-height:none;text-align:left;}
-
   /* ---------- Album ---------- */
   #album{
     position:relative;z-index:2;margin-top:70px;
@@ -498,14 +485,10 @@
   <button class="btn reopen-btn" id="btnReopen">Volver a leer la carta ♡</button>
 </section>
 
-<!-- La Carta (siempre visible, se lee con scroll) -->
-<section id="carta-seccion" class="carta-seccion">
-  <div class="sec-head">
-    <svg viewBox="0 0 32 32"><use href="#heart"/></svg>
-    <h2>La Carta</h2>
-    <p>Escribirte esto fue lo más lindo de mi día... desplázate para leerla ♡</p>
-  </div>
-  <div class="letter-paper in-flow">
+<!-- Carta (se revela al tocar el sobre) -->
+<div id="letterOverlay">
+  <div class="letter-paper">
+    <button class="letter-close" id="btnClose" aria-label="Cerrar carta">✕</button>
     <div class="paper-inner">
       <div class="paper-kicker">Con amor, para mi princesa</div>
       <h1 class="paper-title">Para ti, con amor</h1>
@@ -534,14 +517,6 @@
         <button class="btn btn-album">Nuestro Album ♡</button>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- Carta (ventana emergente al abrir el sobre) -->
-<div id="letterOverlay">
-  <div class="letter-paper">
-    <button class="letter-close" id="btnClose" aria-label="Cerrar carta">✕</button>
-    <div class="paper-inner" id="overlayPaperInner"></div>
   </div>
 </div>
 
@@ -580,11 +555,6 @@
 
 <script>
 (function(){
-  // La carta queda visible en la pagina; el popup usa el mismo contenido
-  var secPaper=document.querySelector('#carta-seccion .paper-inner');
-  var overlayPaper=document.getElementById('overlayPaperInner');
-  if(secPaper&&overlayPaper){overlayPaper.innerHTML=secPaper.innerHTML;}
-
   // Corazones flotantes
   var heartsWrap=document.getElementById('hearts');
   var heartColors=['#ff8fb6','#ff9ec2','#ffb3cd','#ff7ba9','#ff6d9e','#ffc2d7'];
