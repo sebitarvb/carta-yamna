@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti, con amor ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rosa-suave:#ffe4ef;
+    --rosa-2:#ffd3e4;
+    --rosa-3:#ffc2d7;
+    --rosa-medio:#ff8fb6;
+    --rosa-main:#ff7ba9;
+    --rosa-btn:#ff5f8f;
+    --rosa-deep:#f0477f;
+    --crema:#fff8ea;
+    --celeste:#9fd8ff;
+    --blur:rgba(255,255,255,.35);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Poppins',sans-serif;
+    color:#4a2b3a;
+    min-height:100vh;
+    overflow-x:hidden;
+    background:
+      radial-gradient(rgba(150,88,64,.5) 2.8px, transparent 3.4px) 0 0/32px 32px,
+      radial-gradient(rgba(150,88,64,.32) 2.2px, transparent 2.8px) 16px 16px/32px 32px,
+      radial-gradient(circle at 20% 20%, rgba(255,120,160,.55) 0%, transparent 55%),
+      radial-gradient(circle at 85% 25%, rgba(255,96,140,.5) 0%, transparent 50%),
+      linear-gradient(165deg,#ffb7cd 0%, #ff9fbc 45%, #ff8fb0 100%);
+    background-attachment:fixed;
+  }
+  ::selection{background:#ff8fb6;color:#fff;}
+
+  /* ---------- Loader ---------- */
+  #loader{
+    position:fixed;inset:0;z-index:100;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    background:linear-gradient(160deg,#ffe9f2,#ffcfe1);
+    transition:opacity .8s ease, visibility .8s;
+  }
+  #loader.done{opacity:0;visibility:hidden;}
+  #loader .loader-stick{width:170px;height:250px;max-width:60vw;animation:pulse 1.6s ease-in-out infinite;}
+  #loader .load-txt{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(34px,7vw,54px);
+    color:#a3215f;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+  /* ---------- Floating hearts + confetti ---------- */
+  #hearts,#confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1;}
+  #confetti{z-index:50;}
+  .heart-float{position:absolute;bottom:-60px;color:#ff8fb6;opacity:0;animation-name:floatUp;animation-timing-function:linear;animation-iteration-count:infinite;}
+  .heart-float svg{width:100%;height:100%;fill:currentColor;}
+  @keyframes floatUp{
+    0%{transform:translateY(0) translateX(0) scale(.9) rotate(0);opacity:0;}
+    8%{opacity:.75;}
+    50%{opacity:.55;}
+    100%{transform:translateY(-120vh) translateX(var(--sway,0px)) scale(1.1) rotate(20deg);opacity:0;}
+  }
+  .confetti-piece{position:absolute;top:-30px;opacity:0;animation-name:confettiFall;animation-timing-function:ease-in;animation-iteration-count:1;animation-fill-mode:forwards;}
+  @keyframes confettiFall{
+    0%{transform:translateY(-6vh) rotate(0);opacity:1;}
+    100%{transform:translateY(112vh) rotate(var(--rot,300deg));opacity:.25;}
+  }
+
+  /* ---------- Hero / envelope scene ---------- */
+  #hero{
+    position:relative;z-index:2;
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:70px 16px 40px;
+  }
+  .hero-title{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(40px,8vw,64px);
+    color:#d1276b;
+    margin-bottom:14px;
+    text-shadow:0 2px 8px rgba(255,255,255,.35);
+  }
+  .hero-sub{font-size:14px;color:#a12f5c;letter-spacing:.5px;margin-bottom:34px;text-align:center;}
+
+  .envelope{
+    position:relative;
+    width:min(560px,92vw);
+    height:min(380px,62vw);
+    cursor:pointer;
+    perspective:1400px;
+    outline:none;
+  }
+  .env-shadow{
+    position:absolute;left:8%;right:8%;bottom:-26px;height:40px;
+    background:rgba(200,90,140,.28);border-radius:50%;filter:blur(12px);
+  }
+  .env-back{
+    position:absolute;inset:0;border-radius:14px;
+    background:
+      radial-gradient(rgba(255,255,255,.4) 2.4px, transparent 2.8px) 0 0/22px 22px,
+      linear-gradient(165deg,#ffdbe9,#ffc3d8);
+    box-shadow:0 18px 40px rgba(224,72,127,.35);
+    z-index:1;
+  }
+  .envelope-letter{
+    position:absolute;left:5%;right:5%;bottom:6%;height:74%;
+    background:linear-gradient(#fffdf4,#fdf2e0);
+    border-radius:8px;
+    box-shadow:0 -2px 8px rgba(120,60,90,.12);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;
+    transition:transform 1s cubic-bezier(.22,1,.36,1) .25s;
+    z-index:2;
+    overflow:hidden;
+    padding:10px;
+  }
+  .envelope-letter .peek-heart{width:20px;height:20px;fill:#ff5f8f;margin-bottom:2px;}
+  .envelope-letter .peek-title{font-family:'Great Vibes',cursive;color:#4a2b3a;font-size:clamp(20px,4.5vw,30px);line-height:1.1;text-align:center;}
+  .envelope-letter .peek-sub{color:#4a2b3a;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;margin-top:4px;text-align:center;}
+  .env-front{
+    position:absolute;left:0;right:0;bottom:0;height:100%;
+    background:
+      radial-gradient(rgba(255,255,255,.35) 2.6px, transparent 3px) 0 0/24px 24px,
+      linear-gradient(160deg,#ffb7d0,#ff8fb6);
+    clip-path:polygon(0% 100%, 50% 60%, 100% 100%);
+    z-index:3;
+  }
+  .env-front::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:60%;
+    background:linear-gradient(0deg,rgba(210,60,110,.18),transparent);
+  }
+  .env-flap{
+    position:absolute;top:0;left:0;width:100%;height:64%;
+    background:
+      radial-gradient(rgba(255,255,255,.4) 2.6px, transparent 3px) 0 0/24px 24px,
+      linear-gradient(160deg,#ffc4d9,#ffa3c3);
+    clip-path:polygon(0% 0%, 100% 0%, 50% 50%);
+    transform-origin:top center;
+    transition:transform 1s cubic-bezier(.22,1,.36,1), z-index 1s;
+    z-index:4;
+    box-shadow:0 6px 14px rgba(200,80,130,.18);
+  }
+  .envelope.open .env-flap{transform:rotateX(180deg);z-index:1;}
+  .envelope.open .envelope-letter{transform:translateY(-58%);z-index:8;}
+  .envelope.open .cinna-top{opacity:0;transform:rotate(-4deg) translateY(-20px) scale(.9);}
+  .envelope.open .kitty-stamp{opacity:0;transform:scale(.85) rotate(-8deg);}
+
+  .cinna-top{
+    position:absolute;top:-26%;left:1%;width:34%;aspect-ratio:16/10;z-index:7;
+    transform:rotate(-4deg);
+    animation:cinnaBob 3.4s ease-in-out infinite;
+    pointer-events:none;
+    transition:opacity .5s, transform .5s;
+    overflow:hidden;
+  }
+  @keyframes cinnaBob{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(-4deg) translateY(-8px)}}
+
+  .kitty-stamp{
+    position:absolute;right:4%;bottom:10%;width:120px;height:130px;z-index:6;
+    background:#fff;border-radius:14px;padding:6px;
+    box-shadow:0 4px 12px rgba(200,80,130,.3);
+    transform:rotate(6deg);
+    border:3px dashed #ff8fb6;
+    transition:opacity .5s, transform .5s;
+    pointer-events:none;
+  }
+  .kitty-stamp img{width:100%;height:100%;display:block;object-fit:contain;border-radius:8px;}
+  .kitty-stamp .stamp-heart{position:absolute;top:-12px;left:-10px;width:26px;height:26px;fill:#ff5f8f;}
+
+  .hero-hint{
+    margin-top:38px;font-size:13px;color:#a12f5c;letter-spacing:1px;
+    animation:hoverPulse 2s ease-in-out infinite;
+  }
+  @keyframes hoverPulse{0%,100%{opacity:.7}50%{opacity:1}}
+  .reopen-btn{margin-top:18px;display:none;}
+
+  /* ---------- Letter overlay ---------- */
+  #letterOverlay{
+    position:fixed;inset:0;z-index:40;
+    display:flex;align-items:center;justify-content:center;
+    padding:14px;
+    background:rgba(74,20,45,.35);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    opacity:0;visibility:hidden;
+    transition:opacity .6s, visibility .6s;
+  }
+  #letterOverlay.show{opacity:1;visibility:visible;}
+  .letter-paper{
+    position:relative;
+    width:min(680px,96vw);
+    max-height:94vh;
+    max-height:94dvh;
+    overflow-y:auto;
+    background:
+      linear-gradient(175deg,transparent 33px, rgba(255,143,182,.12) 33px, rgba(255,143,182,.12) 35px, transparent 35px) 0 0/100% 52px,
+      linear-gradient(#fffef8,#fdf3e2);
+    border-radius:16px;
+    padding:60px 30px 46px;
+    box-shadow:0 30px 70px rgba(70,20,45,.45);
+    transform:translateY(40px) scale(.96);
+    transition:transform .55s cubic-bezier(.22,1,.36,1);
+    line-height:1.85;
+  }
+  #letterOverlay.show .letter-paper{transform:translateY(0) scale(1);}
+  .paper-inner{max-width:520px;margin:0 auto;}
+  .sticker{
+    display:flex;align-items:center;justify-content:center;
+    background:#fff;border-radius:16px;padding:6px;
+    box-shadow:0 6px 16px rgba(200,90,140,.28);
+    border:3px solid #ffc2d7;overflow:hidden;
+  }
+  .sticker img{width:100%;height:100%;display:block;object-fit:contain;border-radius:11px;}
+  .letter-stickers{display:flex;justify-content:center;align-items:center;gap:14px;margin:20px 0 6px;}
+  .letter-stickers .sticker{width:112px;height:130px;}
+  .letter-stickers .sticker:first-child{transform:rotate(-3deg);}
+  .letter-stickers .sticker:last-child{transform:rotate(3deg);}
+  .paper-kicker{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#e0487f;text-align:center;margin-bottom:6px;}
+  .paper-title{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(38px,9vw,56px);
+    color:#e0487f;text-align:center;margin-bottom:4px;
+  }
+  .paper-divider{display:flex;align-items:center;gap:12px;margin:14px 0 22px;}
+  .paper-divider::before,.paper-divider::after{content:"";flex:1;height:1.5px;background:linear-gradient(90deg,transparent,#ff8fb6,transparent);}
+  .paper-divider svg{width:18px;height:18px;fill:#ff5f8f;}
+  .saludo{font-size:26px;font-weight:600;}
+  .cuerpo p{margin:14px 0;font-size:15.5px;}
+  .cuerpo .corazon{color:#e0487f;}
+  .firma{
+    margin-top:26px;font-family:'Great Vibes',cursive;
+    font-size:32px;color:#e0487f;text-align:right;line-height:1.3;
+  }
+  .firma small{display:block;font-family:'Poppins',sans-serif;font-size:11.5px;color:#b06a86;letter-spacing:2px;}
+  .paper-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:28px;}
+  .btn{
+    border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;
+    font-size:14px;letter-spacing:.5px;
+    padding:14px 22px;border-radius:50px;color:#fff;
+    background:linear-gradient(135deg,#ff7ba9,#ff5f8f);
+    box-shadow:0 8px 20px rgba(255,95,143,.4);
+    transition:transform .2s, box-shadow .2s;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(255,95,143,.5);}
+  .btn.ghost{background:#fff;color:#e0487f;box-shadow:0 4px 14px rgba(200,90,140,.25);border:1.5px solid #ffc2d7;}
+  .letter-close{
+    position:absolute;top:12px;left:12px;width:34px;height:34px;border-radius:50%;
+    border:none;background:#ffe0ec;color:#e0487f;font-size:18px;cursor:pointer;
+    box-shadow:0 2px 8px rgba(200,80,130,.2);
+  }
+
+  /* ---------- Album ---------- */
+  #album{
+    position:relative;z-index:2;margin-top:70px;
+    padding:70px 16px 90px;
+    text-align:center;
+  }
+  #album h2{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(40px,8vw,60px);color:#d1276b;margin-bottom:8px;
+  }
+  #album .album-sub{font-size:14.5px;color:#a12f5c;margin-bottom:14px;}
+  .album-mates{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:26px 0 40px;}
+  .album-mates .sticker{width:132px;height:150px;}
+  .album-mates .sticker:first-child{transform:rotate(-8deg);}
+  .album-mates .sticker:last-child{transform:rotate(8deg);}
+  .album-mates .mates-heart{width:40px;height:40px;fill:#ff5f8f;filter:drop-shadow(0 4px 8px rgba(200,90,140,.25));}
+
+  .album-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:34px 26px;
+    max-width:980px;margin:0 auto;padding:0 10px;
+  }
+  .photo-card{
+    position:relative;cursor:pointer;outline:none;
+    filter:drop-shadow(0 10px 18px rgba(190,80,130,.22));
+    transition:transform .25s;
+  }
+  .photo-card:hover{transform:translateY(-6px) rotate(var(--rot,0deg)) scale(1.02);z-index:3;}
+  .photo-card{transform:rotate(var(--rot,0deg));}
+  .dot-frame{
+    position:relative;
+    background:
+      radial-gradient(rgba(255,95,143,.5) 3px, transparent 3.5px) 0 0/16px 16px,
+      linear-gradient(160deg,#ffd3e4,#ffc2d7);
+    border-radius:14px;
+    padding:12px;
+  }
+  .polaroid{
+    background:linear-gradient(#fff,#fdf6ec);
+    padding:12px 12px 14px;
+    border-radius:8px;
+  }
+  .photo{
+    position:relative;width:100%;aspect-ratio:4/4.6;overflow:hidden;border-radius:6px;
+    background:linear-gradient(160deg,#ffe4ef,#ffcfe2);
+  }
+  .photo .placeholder{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    color:#d96a9b;
+  }
+  .photo .placeholder svg.photo-heart{width:52px;height:52px;fill:#ff8fb6;}
+  .photo .placeholder .sticker{width:86px;height:100px;border-radius:12px;padding:4px;}
+  .photo .placeholder .sticker img{border-radius:8px;}
+  .photo .placeholder span{font-family:'Dancing Script',cursive;font-size:15px;color:#c65f8c;}
+  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s;border-radius:6px;}
+  .photo-card.has-photo .placeholder{display:none;}
+  .photo-card.has-photo img{opacity:1;}
+  .site-ribbon{position:absolute;top:-26px;left:50%;transform:translateX(-50%);width:74px;height:52px;z-index:2;}
+  .caption-title{
+    margin-top:10px;font-family:'Dancing Script',cursive;
+    font-size:20px;color:#c64d80;text-align:center;line-height:1.2;
+  }
+  .caption-story{
+    margin-top:4px;font-family:'Poppins',sans-serif;font-size:12px;
+    color:#8a5a6b;text-align:center;line-height:1.45;
+  }
+
+  /* ---------- Cierre ---------- */
+  #cierre{
+    position:relative;z-index:2;
+    text-align:center;padding:90px 16px 120px;
+  }
+  #cierre svg.big-heart{width:64px;height:64px;fill:#ff5f8f;filter:drop-shadow(0 6px 14px rgba(255,95,143,.4));animation:pulse 2.2s ease-in-out infinite;}
+  #cierre h3{font-family:'Great Vibes',cursive;font-size:clamp(36px,7vw,54px);color:#d1276b;margin:16px 0 6px;}
+  #cierre p{color:#a12f5c;font-size:15px;max-width:420px;margin:0 auto 26px;}
+
+  #toTop{
+    position:fixed;right:18px;bottom:18px;z-index:30;
+    width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
+    background:linear-gradient(135deg,#ff7ba9,#ff5f8f);color:#fff;font-size:22px;
+    box-shadow:0 10px 22px rgba(255,95,143,.45);
+    opacity:0;visibility:hidden;transform:translateY(12px);
+    transition:opacity .3s, visibility .3s, transform .3s;
+  }
+  #toTop.show{opacity:1;visibility:visible;transform:none;}
+
+  /* ---------- Lightbox ---------- */
+  #lightbox{
+    position:fixed;inset:0;z-index:60;
+    background:rgba(50,14,32,.85);
+    backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;visibility:hidden;transition:opacity .35s, visibility .35s;
+    cursor:zoom-out;padding:20px;
+  }
+  #lightbox.show{opacity:1;visibility:visible;}
+  #lightbox .lb-box{max-width:min(520px,96vw);max-height:92vh;text-align:center;}
+  #lightbox img.lb-img{max-width:100%;max-height:80vh;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.5);border:6px solid #fff;}
+  #lightbox .lb-ph{color:#ffc2d7;font-family:'Dancing Script',cursive;font-size:26px;display:flex;flex-direction:column;align-items:center;gap:14px;}
+  #lightbox .lb-ph svg{width:90px;height:90px;fill:#ff8fb6;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:820px){
+    .album-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:480px){
+    .album-grid{grid-template-columns:1fr;max-width:340px;}
+    .cinna-top{width:46%;top:-22%;}
+    .letter-paper{padding:54px 20px 40px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG symbols reutilizables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="heart" viewBox="0 0 32 32">
+      <path d="M16 29C10 24 2 18 2 10.5 2 5.5 5.8 2 10.5 2 13 2 15 3.2 16 5.2 17 3.2 19 2 21.5 2 26.2 2 30 5.5 30 10.5 30 18 22 24 16 29Z"/>
+    </symbol>
+
+    <symbol id="cinnamoroll" viewBox="0 0 220 210">
+      <!-- cola (rollo de canela) -->
+      <circle cx="168" cy="150" r="17" fill="#e2b579" stroke="#c88e4e" stroke-width="3"/>
+      <path d="M168 150 q10 -6 5 -12 q-7 -6 -11 2 q-4 8 5 10" fill="none" stroke="#c88e4e" stroke-width="3.4" stroke-linecap="round"/>
+      <!-- orejas azules -->
+      <path d="M58 84 Q36 32 72 20 Q96 24 88 72 Z" fill="#9fd8ff"/>
+      <path d="M162 84 Q184 32 148 20 Q124 24 132 72 Z" fill="#9fd8ff"/>
+      <path d="M62 74 Q50 42 74 32 Q88 40 82 66 Z" fill="#c9ecff"/>
+      <path d="M158 74 Q170 42 146 32 Q132 40 138 66 Z" fill="#c9ecff"/>
+      <!-- cuerpo -->
+      <ellipse cx="106" cy="158" rx="60" ry="48" fill="#fff" stroke="#f3c6dd" stroke-width="2"/>
+      <ellipse cx="62" cy="168" rx="15" ry="9" fill="#ffc8dc" opacity=".65"/>
+      <ellipse cx="150" cy="168" rx="15" ry="9" fill="#ffc8dc" opacity=".65"/>
+      <!-- cabecita -->
+      <ellipse cx="106" cy="82" rx="52" ry="50" fill="#fff" stroke="#f3c6dd" stroke-width="2"/>
+      <!-- ojos -->
+      <ellipse cx="84" cy="80" rx="8" ry="10.5" fill="#2d6a9f"/>
+      <ellipse cx="128" cy="80" rx="8" ry="10.5" fill="#2d6a9f"/>
+      <circle cx="87" cy="75" r="3.2" fill="#fff"/>
+      <circle cx="131" cy="75" r="3.2" fill="#fff"/>
+      <!-- nariz y boca -->
+      <ellipse cx="106" cy="96" rx="6" ry="3.6" fill="#2d2a2e"/>
+      <path d="M98 100 q8 8 16 0" stroke="#2d2a2e" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <!-- coloretes -->
+      <ellipse cx="66" cy="96" rx="10" ry="6" fill="#ffc8dc" opacity=".75"/>
+      <ellipse cx="146" cy="96" rx="10" ry="6" fill="#ffc8dc" opacity=".75"/>
+      <!-- patitas -->
+      <ellipse cx="78" cy="204" rx="17" ry="9" fill="#fff" stroke="#f3c6dd" stroke-width="2"/>
+      <ellipse cx="136" cy="204" rx="17" ry="9" fill="#fff" stroke="#f3c6dd" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="kitty" viewBox="0 0 200 200">
+      <!-- orejas -->
+      <ellipse cx="60" cy="62" rx="18" ry="25" fill="#fff"/>
+      <ellipse cx="140" cy="62" rx="18" ry="25" fill="#fff"/>
+      <!-- moño -->
+      <g>
+        <path d="M152 60 C164 42 182 44 176 58 C172 66 158 64 152 61 Z" fill="#e7384f"/>
+        <path d="M152 60 C144 40 122 40 118 55 C116 63 130 65 148 62 Z" fill="#e7384f"/>
+        <circle cx="135" cy="57" r="6.5" fill="#d81b43"/>
+      </g>
+      <!-- cabeza -->
+      <ellipse cx="100" cy="120" rx="76" ry="66" fill="#fff"/>
+      <!-- bigotes -->
+      <g stroke="#333" stroke-width="3" stroke-linecap="round">
+        <path d="M34 112 L12 105"/>
+        <path d="M34 124 L12 122"/>
+        <path d="M34 136 L12 141"/>
+        <path d="M166 112 L188 105"/>
+        <path d="M166 124 L188 122"/>
+        <path d="M166 136 L188 141"/>
+      </g>
+      <!-- ojos -->
+      <ellipse cx="72" cy="112" rx="5.6" ry="8.5" fill="#1a1a1a"/>
+      <ellipse cx="128" cy="112" rx="5.6" ry="8.5" fill="#1a1a1a"/>
+      <!-- nariz -->
+      <ellipse cx="100" cy="128" rx="5.4" ry="3.8" fill="#f5c542"/>
+      <ellipse cx="54" cy="164" rx="10" ry="6" fill="#ffc8dc" opacity=".6"/>
+      <ellipse cx="146" cy="164" rx="10" ry="6" fill="#ffc8dc" opacity=".6"/>
+    </symbol>
+
+    <symbol id="ribbon" viewBox="0 0 100 60">
+      <path d="M50 28 C34 14 18 16 22 30 C26 42 40 40 50 32 Z" fill="#ff5f8f"/>
+      <path d="M50 28 C66 14 82 16 78 30 C74 42 60 40 50 32 Z" fill="#ff7ba9"/>
+      <circle cx="50" cy="31" r="9" fill="#ff8fb6" stroke="#e8456e" stroke-width="2.5"/>
+      <path d="M46 32 L36 50 L46 44 L56 56 Z" fill="#e8456e"/>
+      <path d="M54 32 L64 50 L54 44 L44 56 Z" fill="#ff5f8f"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="sticker loader-stick"><img src="personajes/kkk.jpg" alt="Personaje de Sanrio"></div>
+  <div class="load-txt">Para ti, con amor</div>
+</div>
+
+<!-- Fondo animado -->
+<div id="hearts"></div>
+<div id="confetti"></div>
+
+<!-- SEO del sobre -->
+<section id="hero">
+  <div class="hero-title">Para ti, con amor</div>
+  <div class="hero-sub">Algo especial llegó para tu corazón... toca el sobre ♡</div>
+
+  <div class="envelope" id="env" role="button" aria-label="Abrir sobre">
+    <div class="env-shadow"></div>
+    <div class="cinna-top sticker"><img src="personajes/aaa.png" alt="Personaje de Sanrio"></div>
+    <div class="env-back"></div>
+    <div class="envelope-letter">
+      <svg class="peek-heart" viewBox="0 0 32 32"><use href="#heart"/></svg>
+      <div class="peek-title">Para ti, con amor</div>
+      <div class="peek-sub">Feliz cumpleaños</div>
+    </div>
+    <div class="env-front"></div>
+    <div class="env-flap"></div>
+    <div class="kitty-stamp">
+      <img src="personajes/kkk.jpg" alt="Sello">
+      <svg class="stamp-heart" viewBox="0 0 32 32"><use href="#heart"/></svg>
+    </div>
+  </div>
+
+  <div class="hero-hint">Toca para abrir ♡</div>
+  <button class="btn reopen-btn" id="btnReopen">Volver a leer la carta ♡</button>
+</section>
+
+<!-- Carta -->
+<div id="letterOverlay">
+  <div class="letter-paper">
+    <button class="letter-close" id="btnClose" aria-label="Cerrar carta">✕</button>
+    <div class="paper-inner">
+      <div class="paper-kicker">Con amor, para mi princesa</div>
+      <h1 class="paper-title">Para ti, con amor</h1>
+      <div class="paper-divider"><svg viewBox="0 0 32 32"><use href="#heart"/></svg></div>
+
+      <div class="letter-stickers">
+        <div class="sticker"><img src="personajes/aaa.png" alt=""></div>
+        <div class="sticker"><img src="personajes/kkk.jpg" alt=""></div>
+      </div>
+
+      <p class="saludo">Querida Yamna:</p>
+
+      <div class="cuerpo">
+        <p>Te deseo un feliz cumpleaños y obviamente un beso y un abrazo muy grande. Espero que este detalle te guste, además de la página sorpresa.</p>
+        <p>Yo realmente nunca pensé que existiera una mujer tan hermosa y simpática (pesada), de verdad que no tengo palabras para expresar todo lo que siento hacia ti.</p>
+        <p>Espero poder acompañarte por muchos añitos más, mi vida, y llegar hasta viejitos para poder siempre tener tu compañía, hermosa. Agradezco mucho tener una mujer tan espectacular y hermosa como tú, que siempre saca lo mejor de mí y me motiva a seguir mis sueños y metas.</p>
+        <p>Te amo, mi <span class="corazon">xaniu</span>. No sabes lo feliz que haces mis días, aunque sea un cascarrabias <span class="corazon">:c</span></p>
+      </div>
+
+      <div class="firma">
+        Con todo mi amor
+        <small>Att. Sebastian Robledo</small>
+      </div>
+
+      <div class="paper-actions">
+        <button class="btn" id="btnAlbum">Nuestro Album ♡</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Album -->
+<section id="album">
+  <h2>Nuestro Album</h2>
+  <div class="album-sub">Nuestros momentos favoritos, rodeados de rosado y listones ♡</div>
+  <div class="album-mates">
+    <div class="sticker"><img src="personajes/kkk.jpg" alt=""></div>
+    <svg class="mates-heart" viewBox="0 0 32 32"><use href="#heart"/></svg>
+    <div class="sticker"><img src="personajes/aaa.png" alt=""></div>
+  </div>
+  <div class="album-grid" id="albumGrid"></div>
+</section>
+
+<!-- Cierre -->
+<section id="cierre">
+  <svg class="big-heart" viewBox="0 0 32 32"><use href="#heart"/></svg>
+  <h3>Con todo mi amor, Sebastian</h3>
+  <p>Cada foto que agregues a este album será un pedacito de nuestra historia. Te quiero muchísimo, mi xaniu.</p>
+  <button class="btn ghost" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">Volver al inicio ♡</button>
+</section>
+
+<button id="toTop" aria-label="Volver arriba">↑</button>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <div class="lb-box">
+    <img class="lb-img" src="" alt="Foto ampliada">
+    <div class="lb-ph">
+      <svg viewBox="0 0 32 32"><use href="#heart"/></svg>
+      Agrega una foto a la carpeta fotos/ para verla aquí ♡
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var loader=document.getElementById('loader');
+  setTimeout(function(){loader.classList.add('done');},1300);
+
+  // Corazones flotantes
+  var heartsWrap=document.getElementById('hearts');
+  var heartColors=['#ff8fb6','#ff9ec2','#ffb3cd','#ff7ba9','#ff6d9e','#ffc2d7'];
+  for(var i=0;i<26;i++){
+    var h=document.createElement('div');
+    h.className='heart-float';
+    var s=14+Math.random()*22;
+    h.style.cssText=
+      'left:'+(Math.random()*100)+'%;'+
+      'width:'+s+'px;height:'+s+'px;'+
+      'color:'+heartColors[i%heartColors.length]+';'+
+      'animation-duration:'+(9+Math.random()*10)+'s;'+
+      'animation-delay:'+(Math.random()*12)+'s;'+
+      '--sway:'+((Math.random()*80-40)|0)+'px;';
+    h.innerHTML='<svg viewBox="0 0 32 32"><use href="#heart"/></svg>';
+    heartsWrap.appendChild(h);
+  }
+
+  // Confeti
+  function burstConfetti(){
+    var wrap=document.getElementById('confetti');
+    var colors=['#ff8fab','#ff5f8f','#ffd6e8','#ffffff','#ffc2d4','#f7b32b','#9fd8ff','#e7384f'];
+    for(var i=0;i<80;i++){
+      var p=document.createElement('div');
+      p.className='confetti-piece';
+      var size=6+Math.random()*9;
+      p.style.cssText=
+        'left:'+(Math.random()*100)+'%;'+
+        'width:'+size+'px;height:'+(size*(0.5+Math.random())).toFixed(1)+'px;'+
+        'background:'+colors[i%colors.length]+';'+
+        'border-radius:'+(Math.random()>0.5?'50%':'2px')+';'+
+        'animation-duration:'+(2.6+Math.random()*2.6)+'s;'+
+        'animation-delay:'+(Math.random()*0.7)+'s;'+
+        '--rot:'+((Math.random()*720-360)|0)+'deg;';
+      wrap.appendChild(p);
+      (function(el){setTimeout(function(){el.remove();},6200);})(p);
+    }
+  }
+
+  // Apertura del sobre + reabrir carta
+  var overlay=document.getElementById('letterOverlay');
+  function showLetter(){
+    burstConfetti();
+    overlay.classList.add('show');
+  }
+  var opened=false;
+  var env=document.getElementById('env');
+  env.addEventListener('click',function(){
+    if(opened)return;
+    opened=true;
+    env.classList.add('open');
+    burstConfetti();
+    document.getElementById('btnReopen').style.display='inline-flex';
+    setTimeout(showLetter,1050);
+  });
+
+  document.getElementById('btnClose').addEventListener('click',function(){
+    overlay.classList.remove('show');
+  });
+  document.getElementById('btnReopen').addEventListener('click',showLetter);
+  document.getElementById('btnAlbum').addEventListener('click',function(){
+    overlay.classList.remove('show');
+    window.setTimeout(function(){
+      document.getElementById('album').scrollIntoView({behavior:'smooth'});
+    },250);
+  });
+
+  // Album
+  var grid=document.getElementById('albumGrid');
+  // HORAS DE TU ALBUM — cambia los textos aqui
+  var historias=[
+    {titulo:'Momento 1 ♡', historia:'El día que nuestra historia comenzó.'},
+    {titulo:'Momento 2 ♡', historia:'Una aventura que siempre recordaré.'},
+    {titulo:'Momento 3 ♡', historia:'Nuestra historia, un capítulo a la vez.'},
+    {titulo:'Momento 4 ♡', historia:'Ese momento que guardo en mi corazón.'},
+    {titulo:'Momento 5 ♡', historia:'Risas que quiero revivir siempre.'},
+    {titulo:'Momento 6 ♡', historia:'Te quiero muchísimo, mi xaniu.'}
+  ];
+  var buddies=['personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg'];
+  for(var i=0;i<6;i++){
+    var card=document.createElement('div');
+    card.className='photo-card';
+    card.style.setProperty('--rot',(i%2?-1.6:1.6)+'deg');
+    card.innerHTML=
+      '<div class="dot-frame">'+
+        '<svg class="site-ribbon" viewBox="0 0 100 60"><use href="#ribbon"/></svg>'+
+        '<div class="polaroid">'+
+          '<div class="photo">'+
+            '<div class="placeholder">'+
+              '<svg class="photo-heart" viewBox="0 0 32 32"><use href="#heart"/></svg>'+
+              '<div class="sticker"><img src="'+buddies[i]+'" alt=""></div>'+
+              '<span>Tu foto aqui ♡</span>'+
+            '</div>'+
+            '<img class="ph-img" data-src="fotos/foto'+(i+1)+'.jpg" alt="'+historias[i].titulo+'">'+
+          '</div>'+
+          '<p class="caption-title">'+historias[i].titulo+'</p>'+
+          '<p class="caption-story">'+historias[i].historia+'</p>'+
+        '</div>'+
+      '</div>';
+    grid.appendChild(card);
+
+    var img=card.querySelector('.ph-img');
+    (function(im,cd){
+      im.addEventListener('load',function(){cd.classList.add('has-photo');});
+      im.addEventListener('error',function(){im.remove();});
+      im.src=im.dataset.src;
+    })(img,card);
+  }
+
+  // Lightbox
+  var lb=document.getElementById('lightbox');
+  var lbImg=lb.querySelector('.lb-img');
+  var lbPh=lb.querySelector('.lb-ph');
+  grid.addEventListener('click',function(e){
+    var card=e.target.closest('.photo-card');
+    if(!card)return;
+    var img=card.querySelector('.ph-img');
+    if(img){
+      lbImg.src=img.src;lbImg.style.display='block';lbPh.style.display='none';
+    }else{
+      lbImg.style.display='none';lbPh.style.display='flex';
+    }
+    lb.classList.add('show');
+  });
+  lb.addEventListener('click',function(){lb.classList.remove('show');});
+
+  // Boton volver arriba
+  var toTop=document.getElementById('toTop');
+  toTop.addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  window.addEventListener('scroll',function(){
+    toTop.classList.toggle('show',window.scrollY>400);
+  });
+})();
+</script>
+</body>
+</html>
