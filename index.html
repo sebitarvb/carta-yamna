@@ -205,7 +205,7 @@
       linear-gradient(175deg,transparent 33px, rgba(255,143,182,.12) 33px, rgba(255,143,182,.12) 35px, transparent 35px) 0 0/100% 52px,
       linear-gradient(#fffef8,#fdf3e2);
     border-radius:16px;
-    padding:60px 30px 46px;
+    padding:74px 30px 52px;
     box-shadow:0 30px 70px rgba(70,20,45,.45);
     transform:translateY(40px) scale(.96);
     transition:transform .55s cubic-bezier(.22,1,.36,1);
@@ -220,17 +220,17 @@
     border:3px solid #ffc2d7;overflow:hidden;
   }
   .sticker img{width:100%;height:100%;display:block;object-fit:contain;border-radius:11px;}
-  .letter-stickers{display:flex;justify-content:center;align-items:center;gap:14px;margin:20px 0 6px;}
+  .letter-stickers{display:flex;justify-content:center;align-items:center;gap:14px;margin:26px 0 14px;}
   .letter-stickers .sticker{width:112px;height:130px;}
   .letter-stickers .sticker:first-child{transform:rotate(-3deg);}
   .letter-stickers .sticker:last-child{transform:rotate(3deg);}
-  .paper-kicker{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#e0487f;text-align:center;margin-bottom:6px;}
+  .paper-kicker{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#e0487f;text-align:center;margin-bottom:12px;}
   .paper-title{
     font-family:'Great Vibes',cursive;
     font-size:clamp(38px,9vw,56px);
-    color:#e0487f;text-align:center;margin-bottom:4px;
+    color:#e0487f;text-align:center;margin:4px 0 12px;
   }
-  .paper-divider{display:flex;align-items:center;gap:12px;margin:14px 0 22px;}
+  .paper-divider{display:flex;align-items:center;gap:12px;margin:18px 0 26px;}
   .paper-divider::before,.paper-divider::after{content:"";flex:1;height:1.5px;background:linear-gradient(90deg,transparent,#ff8fb6,transparent);}
   .paper-divider svg{width:18px;height:18px;fill:#ff5f8f;}
   .saludo{font-size:26px;font-weight:600;}
@@ -261,11 +261,11 @@
   /* ---------- Seccion carta (visible al hacer scroll) ---------- */
   .carta-seccion{
     position:relative;z-index:2;
-    padding:80px 16px 30px;
+    padding:120px 16px 64px;
     display:flex;flex-direction:column;align-items:center;
     text-align:center;
   }
-  .sec-head{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:30px;}
+  .sec-head{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:46px;}
   .sec-head svg{width:40px;height:40px;fill:#ff5f8f;animation:pulse 3s ease-in-out infinite;}
   .sec-head h2{font-family:'Great Vibes',cursive;font-size:clamp(38px,8vw,58px);color:#d1276b;margin:0;}
   .sec-head p{font-size:14.5px;color:#a12f5c;max-width:460px;margin:0;}
@@ -669,15 +669,17 @@
   var grid=document.getElementById('albumGrid');
   // HORAS DE TU ALBUM — cambia los textos aqui
   var historias=[
-    {titulo:'Momento 1 ♡', historia:'El día que nuestra historia comenzó.'},
-    {titulo:'Momento 2 ♡', historia:'Una aventura que siempre recordaré.'},
-    {titulo:'Momento 3 ♡', historia:'Nuestra historia, un capítulo a la vez.'},
-    {titulo:'Momento 4 ♡', historia:'Ese momento que guardo en mi corazón.'},
-    {titulo:'Momento 5 ♡', historia:'Risas que quiero revivir siempre.'},
-    {titulo:'Momento 6 ♡', historia:'Te quiero muchísimo, mi xaniu.'}
+    {titulo:'Foto 1 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
+    {titulo:'Foto 2 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
+    {titulo:'Foto 3 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
+    {titulo:'Foto 4 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
+    {titulo:'Foto 5 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
+    {titulo:'Foto 6 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
+    {titulo:'Foto 7 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
+    {titulo:'Foto 8 ♡', historia:'Pronto le escribiré algo a esta foto ♡'}
   ];
-  var buddies=['personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg'];
-  for(var i=0;i<6;i++){
+  var buddies=['personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg'];
+  for(var i=0;i<8;i++){
     var card=document.createElement('div');
     card.className='photo-card';
     card.style.setProperty('--rot',(i%2?-1.6:1.6)+'deg');
