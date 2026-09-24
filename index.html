@@ -201,6 +201,7 @@
     max-height:94vh;
     max-height:94dvh;
     overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
     background:
       linear-gradient(175deg,transparent 33px, rgba(255,143,182,.12) 33px, rgba(255,143,182,.12) 35px, transparent 35px) 0 0/100% 52px,
       linear-gradient(#fffef8,#fdf3e2);
@@ -220,10 +221,11 @@
     border:3px solid #ffc2d7;overflow:hidden;
   }
   .sticker img{width:100%;height:100%;display:block;object-fit:contain;border-radius:11px;}
-  .letter-stickers{display:flex;justify-content:center;align-items:center;gap:14px;margin:26px 0 14px;}
+  .letter-stickers{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:14px;margin:26px 0 14px;}
   .letter-stickers .sticker{width:112px;height:130px;}
   .letter-stickers .sticker:first-child{transform:rotate(-3deg);}
   .letter-stickers .sticker:last-child{transform:rotate(3deg);}
+  .letter-stickers .sticker-land{width:158px;height:110px;transform:rotate(-1deg);}
   .paper-kicker{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#e0487f;text-align:center;margin-bottom:12px;}
   .paper-title{
     font-family:'Great Vibes',cursive;
@@ -275,10 +277,19 @@
   .album-mates .sticker:last-child{transform:rotate(8deg);}
   .album-mates .mates-heart{width:40px;height:40px;fill:#ff5f8f;filter:drop-shadow(0 4px 8px rgba(200,90,140,.25));}
 
+  .band-sticker{
+    width:min(380px,86vw);aspect-ratio:4/2.75;
+    margin:0 auto 44px;transform:rotate(-2deg);
+    background:#fff;border:3px solid #ffc2d7;border-radius:16px;padding:8px;
+    box-shadow:0 10px 22px rgba(190,80,130,.25);
+  }
+  .band-sticker img{width:100%;height:100%;display:block;object-fit:cover;border-radius:11px;}
+
   .album-grid{
     display:grid;grid-template-columns:repeat(3,1fr);gap:34px 26px;
-    max-width:980px;margin:0 auto;padding:0 10px;
+    max-width:980px;margin:0 auto;padding:0 10px;align-items:start;
   }
+  .photo-card.landscape .photo{aspect-ratio:4/3;}
   .photo-card{
     position:relative;cursor:pointer;outline:none;
     filter:drop-shadow(0 10px 18px rgba(190,80,130,.22));
@@ -496,6 +507,7 @@
 
       <div class="letter-stickers">
         <div class="sticker"><img src="personajes/aaa.png" alt=""></div>
+        <div class="sticker sticker-land"><img src="personajes/umbreon-sylveon.jpg" alt="Umbreon y Sylveon"></div>
         <div class="sticker"><img src="personajes/kkk.jpg" alt=""></div>
       </div>
 
@@ -506,6 +518,7 @@
         <p>Yo realmente nunca pensé que existiera una mujer tan hermosa y simpática (pesada), de verdad que no tengo palabras para expresar todo lo que siento hacia ti.</p>
         <p>Espero poder acompañarte por muchos añitos más, mi vida, y llegar hasta viejitos para poder siempre tener tu compañía, hermosa. Agradezco mucho tener una mujer tan espectacular y hermosa como tú, que siempre saca lo mejor de mí y me motiva a seguir mis sueños y metas.</p>
         <p>Te amo, mi <span class="corazon">xaniu</span>. No sabes lo feliz que haces mis días, aunque sea un cascarrabias <span class="corazon">:c</span></p>
+        <p>Espero poder estar contigo en las buenas y en las malas y nunca soltar tu mano. Espero que te haya gustado este detallito que te hice.</p>
       </div>
 
       <div class="firma">
@@ -528,6 +541,9 @@
     <div class="sticker"><img src="personajes/kkk.jpg" alt=""></div>
     <svg class="mates-heart" viewBox="0 0 32 32"><use href="#heart"/></svg>
     <div class="sticker"><img src="personajes/aaa.png" alt=""></div>
+  </div>
+  <div class="band-sticker">
+    <img src="personajes/umbreon-sylveon.jpg" alt="Umbreon y Sylveon">
   </div>
   <div class="album-grid" id="albumGrid"></div>
 </section>
@@ -646,12 +662,13 @@
     {titulo:'Foto 5 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
     {titulo:'Foto 6 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
     {titulo:'Foto 7 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
-    {titulo:'Foto 8 ♡', historia:'Pronto le escribiré algo a esta foto ♡'}
+    {titulo:'Foto 8 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
+    {titulo:'Foto 9 ♡', historia:'Pronto le escribiré algo a esta foto ♡'}
   ];
-  var buddies=['personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg'];
-  for(var i=0;i<8;i++){
+  var buddies=['personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png','personajes/kkk.jpg','personajes/aaa.png'];
+  for(var i=0;i<9;i++){
     var card=document.createElement('div');
-    card.className='photo-card';
+    card.className='photo-card'+(i===8?' landscape':'');
     card.style.setProperty('--rot',(i%2?-1.6:1.6)+'deg');
     card.innerHTML=
       '<div class="dot-frame">'+
