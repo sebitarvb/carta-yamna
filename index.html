@@ -346,6 +346,8 @@
   .photo-card.has-photo .placeholder{display:none;}
   .photo-card.has-photo img{opacity:1;}
   .site-ribbon{position:absolute;top:-26px;left:50%;transform:translateX(-50%);width:74px;height:52px;z-index:2;}
+  .peek-sticker{position:absolute;top:-14px;right:-10px;width:72px;height:90px;z-index:4;pointer-events:none;transform:rotate(6deg);filter:drop-shadow(0 4px 8px rgba(190,80,130,.35));}
+  .peek-sticker img{width:100%;height:100%;display:block;object-fit:contain;}
   .caption-title{
     margin-top:10px;font-family:'Dancing Script',cursive;
     font-size:20px;color:#c64d80;text-align:center;line-height:1.2;
@@ -693,9 +695,11 @@
     var card=document.createElement('div');
     card.className='photo-card'+(i===8?' landscape':'');
     card.style.setProperty('--rot',(i%2?-1.6:1.6)+'deg');
+    var peekSrc=i===0?'personajes/aaa-trans.png':(i===8?'personajes/kkk-trans.png':'');
     card.innerHTML=
       '<div class="dot-frame">'+
         '<svg class="site-ribbon" viewBox="0 0 100 60"><use href="#ribbon"/></svg>'+
+        (peekSrc?'<div class="peek-sticker"><img src="'+peekSrc+'" alt=""></div>':'')+
         '<div class="polaroid">'+
           '<div class="photo">'+
             '<div class="placeholder">'+
