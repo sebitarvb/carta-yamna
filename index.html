@@ -277,14 +277,14 @@
   .album-mates .am-st,.album-mates .mates-heart{position:relative;z-index:1;}
   .album-mates .am-st{width:132px;height:150px;background:transparent;border:none;padding:0;box-shadow:none;border-radius:0;overflow:visible;}
   .album-mates .am-st img{width:100%;height:100%;display:block;object-fit:contain;border-radius:0;filter:drop-shadow(0 8px 14px rgba(200,80,130,.3));}
-  .album-mates .am-st:first-child{transform:rotate(-8deg);}
-  .album-mates .am-st:last-child{transform:rotate(8deg);}
+  .album-mates .am-st:nth-child(2){transform:rotate(-8deg);}
+  .album-mates .am-st:nth-child(4){transform:rotate(8deg);}
   .album-mates .mates-heart{width:40px;height:40px;fill:#ff5f8f;filter:drop-shadow(0 4px 8px rgba(200,90,140,.25));}
 
-  .album-thread{position:absolute;top:-46px;left:50%;transform:translateX(-50%);width:min(480px,104%);height:170px;z-index:0;pointer-events:none;}
+  .album-thread{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:min(460px,96%);aspect-ratio:3/1;z-index:0;pointer-events:none;}
   .thread-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
-  .thread-heart{position:absolute;top:72px;left:50%;width:24px;height:24px;fill:#d7263d;transform:translateX(-50%) rotate(-6deg);filter:drop-shadow(0 2px 5px rgba(200,80,130,.45));animation:knotPulse 3s ease-in-out infinite;}
-  @keyframes knotPulse{0%,100%{transform:translateX(-50%) rotate(-6deg) scale(1)}50%{transform:translateX(-50%) rotate(-6deg) scale(1.15)}}
+  .th-heart{fill:#d7263d;transform-box:fill-box;transform-origin:center;filter:drop-shadow(0 2px 5px rgba(200,80,130,.45));animation:knotPulse 3s ease-in-out infinite;}
+  @keyframes knotPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
 
   .band-sticker{
     width:min(380px,86vw);aspect-ratio:4/2.75;
@@ -299,13 +299,17 @@
     max-width:980px;margin:0 auto;padding:0 10px;align-items:start;
   }
   .photo-card.landscape .photo{aspect-ratio:4/3;}
-  .album-grid .photo-card:first-child .dot-frame::before,
-  .album-grid .photo-card:first-child .dot-frame::after{
+  .album-grid .photo-card:nth-child(1) .dot-frame::before,
+  .album-grid .photo-card:nth-child(1) .dot-frame::after,
+  .album-grid .photo-card:nth-child(4) .dot-frame::before,
+  .album-grid .photo-card:nth-child(4) .dot-frame::after{
     content:"♥";position:absolute;z-index:3;font-size:17px;line-height:1;color:#fff;
     text-shadow:0 0 5px rgba(255,95,143,.95),0 2px 6px rgba(200,80,130,.55);
   }
-  .album-grid .photo-card:first-child .dot-frame::before{top:-12px;left:-12px;transform:rotate(-14deg);}
-  .album-grid .photo-card:first-child .dot-frame::after{bottom:-12px;right:-12px;transform:rotate(14deg);}
+  .album-grid .photo-card:nth-child(1) .dot-frame::before{top:-12px;left:-12px;transform:rotate(-14deg);}
+  .album-grid .photo-card:nth-child(1) .dot-frame::after{bottom:-12px;right:-12px;transform:rotate(14deg);}
+  .album-grid .photo-card:nth-child(4) .dot-frame::before{top:-12px;left:-12px;transform:rotate(-14deg);}
+  .album-grid .photo-card:nth-child(4) .dot-frame::after{bottom:-12px;right:-12px;transform:rotate(14deg);}
   .photo-card{
     position:relative;cursor:pointer;outline:none;
     filter:drop-shadow(0 10px 18px rgba(190,80,130,.22));
@@ -345,10 +349,6 @@
   .caption-title{
     margin-top:10px;font-family:'Dancing Script',cursive;
     font-size:20px;color:#c64d80;text-align:center;line-height:1.2;
-  }
-  .caption-story{
-    margin-top:4px;font-family:'Poppins',sans-serif;font-size:12px;
-    color:#8a5a6b;text-align:center;line-height:1.45;
   }
 
   /* ---------- Cierre ---------- */
@@ -556,9 +556,10 @@
   <div class="album-mates">
     <div class="album-thread">
       <svg class="thread-svg" viewBox="0 0 420 140" aria-hidden="true">
-        <path d="M -5 45 C 50 85, 90 15, 150 50 C 200 80, 230 30, 280 60 C 320 85, 360 70, 425 95" fill="none" stroke="#d7263d" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M 15 24 C 70 66, 115 38, 168 54 C 186 60, 180 84, 210 84 C 240 84, 234 60, 252 54 C 305 38, 350 66, 405 24" fill="none" stroke="#d7263d" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="210" cy="84" r="2.6" fill="#d7263d"/>
+        <g transform="translate(196,92) scale(0.72)"><use class="th-heart" href="#heart"/></g>
       </svg>
-      <svg class="thread-heart" viewBox="0 0 32 32"><use href="#heart"/></svg>
     </div>
     <div class="am-st"><img src="personajes/kkk-trans.png" alt=""></div>
     <svg class="mates-heart" viewBox="0 0 32 32"><use href="#heart"/></svg>
@@ -675,17 +676,17 @@
 
   // Album
   var grid=document.getElementById('albumGrid');
-  // HORAS DE TU ALBUM — cambia los textos aqui
+  // MENSAJES DE TU ALBUM — cambia los textos aqui
   var historias=[
-    {titulo:'Foto 1 ♡', historia:'Nuestras primeras fotos'},
-    {titulo:'Foto 2 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
-    {titulo:'Foto 3 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
-    {titulo:'Foto 4 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
-    {titulo:'Foto 5 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
-    {titulo:'Foto 6 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
-    {titulo:'Foto 7 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
-    {titulo:'Foto 8 ♡', historia:'Pronto le escribiré algo a esta foto ♡'},
-    {titulo:'Foto 9 ♡', historia:'Pronto le escribiré algo a esta foto ♡'}
+    'Nuestras primeras fotos',
+    'Nuestras salidas a cualquier lado',
+    'Nuestra primera vez en el sur',
+    'me encanta todo de ti',
+    'Me encanta tu forma de ser',
+    'Siempre me gusta estar contigo',
+    'Me gusta todo de ti',
+    'Me encanta salir contigo y comer',
+    'Te amo por lo que somos. Feliz cumpleaños'
   ];
   var buddies=['personajes/aaa-trans.png','personajes/kkk-trans.png','personajes/aaa-trans.png','personajes/kkk-trans.png','personajes/aaa-trans.png','personajes/kkk-trans.png','personajes/aaa-trans.png','personajes/kkk-trans.png','personajes/aaa-trans.png'];
   for(var i=0;i<9;i++){
@@ -702,10 +703,9 @@
               '<div class="sticker"><img src="'+buddies[i]+'" alt=""></div>'+
               '<span>Tu foto aqui ♡</span>'+
             '</div>'+
-            '<img class="ph-img" data-src="fotos/foto'+(i+1)+'.jpg" alt="'+historias[i].titulo+'">'+
+            '<img class="ph-img" data-src="fotos/foto'+(i+1)+'.jpg" alt="'+historias[i]+'">'+
           '</div>'+
-          '<p class="caption-title">'+historias[i].titulo+'</p>'+
-          '<p class="caption-story">'+historias[i].historia+'</p>'+
+          '<p class="caption-title">'+historias[i]+'</p>'+
         '</div>'+
       '</div>';
     grid.appendChild(card);
