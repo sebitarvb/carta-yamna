@@ -695,7 +695,7 @@
     var card=document.createElement('div');
     card.className='photo-card'+(i===8?' landscape':'');
     card.style.setProperty('--rot',(i%2?-1.6:1.6)+'deg');
-    var peekSrc=i===0?'personajes/aaa-trans.png':(i===8?'personajes/kkk-trans.png':'');
+    var peekSrc=(i===0||i===2||i===6?'personajes/aaa-trans.png':(i===3||i===8?'personajes/kkk-trans.png':''));
     card.innerHTML=
       '<div class="dot-frame">'+
         '<svg class="site-ribbon" viewBox="0 0 100 60"><use href="#ribbon"/></svg>'+
